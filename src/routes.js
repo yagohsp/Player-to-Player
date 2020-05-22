@@ -6,10 +6,13 @@ const routes = Router();
 
 routes
 .get('/players', PlayerController.index)
-.post('/players', PlayerController.store)
+.post('/players', PlayerController.save)
 .delete('/players', PlayerController.delete);
 
 routes
-.get('/search', SearchController.index);
+.get('/search', SearchController.find);
+
+routes
+.get('/player', SearchController.findOne);
 
 module.exports = routes;

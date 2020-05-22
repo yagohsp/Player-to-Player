@@ -54,37 +54,42 @@ function Players() {
 
   return (
     <div id="playersContent">
-      <div className="playerForm">
-        <strong>Buscar Jogador</strong>
-        <form>
-          <div className="inputContainer">
-            <label htmlFor="jogos">Games</label>
-            <Multiselect
-              isObject={false}
-              options={listaJogos}
-              placeholder="Selecione um ou mais jogos"
-              closeIcon="cancel"
-              onSelect={filtrarPorJogos}
-              onRemove={filtrarPorJogos}
-            />
-          </div>
-          <div className="inputContainer">
-            <label htmlFor="dias">Dias disponível para jogar</label>
-            <Multiselect
-              isObject={false}
-              options={listaDias}
-              placeholder="Selecione um ou mais dias"
-              closeIcon="cancel"
-              onSelect={filtrarPorDias}
-              onRemove={filtrarPorDias}
-            />
-          </div>
-          <Link to="/cadastrar">
-            <button>
-              Me Cadastrar
+      <div>
+        <div className="playerForm">
+          <strong>Buscar Jogador</strong>
+          <form>
+            <div className="inputContainer">
+              <label htmlFor="jogos">Games</label>
+              <Multiselect
+                isObject={false}
+                options={listaJogos}
+                placeholder="Selecione um ou mais jogos"
+                closeIcon="cancel"
+                onSelect={filtrarPorJogos}
+                onRemove={filtrarPorJogos}
+              />
+            </div>
+            <div className="inputContainer">
+              <label htmlFor="dias">Dias disponível para jogar</label>
+              <Multiselect
+                isObject={false}
+                options={listaDias}
+                placeholder="Selecione um ou mais dias"
+                closeIcon="cancel"
+                onSelect={filtrarPorDias}
+                onRemove={filtrarPorDias}
+              />
+            </div>
+            <Link to="/cadastrar">
+              <button>
+                Me Cadastrar
             </button>
-          </Link>
-        </form>
+            </Link>
+          </form>
+        </div>
+        <strong>
+          Player-to-Player
+        </strong>
       </div>
       <div className="players">
         <ul>

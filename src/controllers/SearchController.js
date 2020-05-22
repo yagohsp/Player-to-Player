@@ -1,7 +1,7 @@
 const Player = require('../models/PlayerModel');
 
 module.exports = {
-    async index(req, res){
+    async find(req, res){
         const { jogos } = req.query;
         const { dias } = req.query;
 
@@ -42,6 +42,14 @@ module.exports = {
             })
             return res.json(players);
         }
+    },
 
+    async findOne(req, res){
+        const { cpf } = req.headers
+        const player = await Player.findOne({
+            cpf: cpf
+        })
+
+        return res.json(player);
     }
 }

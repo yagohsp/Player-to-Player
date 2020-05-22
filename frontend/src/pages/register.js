@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import { FaArrowLeft } from 'react-icons/fa';
+import { FaArrowLeft, FaTimes, FaSearch } from 'react-icons/fa';
 import { Multiselect } from 'multiselect-react-dropdown';
 import api from '../services/api';
 
@@ -25,8 +25,18 @@ export default function Register() {
 
     }, [])
 
+    async function deletarJogador(e) {
+        e.preventDefault();
+
+        await api.delete('/players', {
+            headers: { 'cpf': cpf }
+        })
+        history.push('/');
+    }
+
     async function cadastrarJogador(e) {
         e.preventDefault();
+
         await api.post('/players', {
             nickname,
             nome,
@@ -39,6 +49,28 @@ export default function Register() {
             headers: { 'cpf': cpf }
         })
         history.push('/');
+    }
+
+    async function findPlayer() {
+        setNickname('');
+        setNome('');
+        setJogos([]);
+        setDias([]);
+        setSteam('');
+        setDescricao('');
+        if (cpf) {
+            const { data: player } = await api.get("/player", {
+                headers: { 'cpf': cpf }
+            })
+            if (player != null) {
+                setNickname(player.nickname);
+                setNome(player.nome);
+                setJogos(player.jogos);
+                setDias(player.dias);
+                setSteam(player.steam);
+                setDescricao(player.descricao);
+            }
+        }
     }
 
     return (
@@ -67,11 +99,12 @@ export default function Register() {
                         <Multiselect
                             isObject={false}
                             options={listaJogos}
+                            selectedValues={jogos}
                             displayValue="jogos"
                             placeholder="Selecione um ou mais jogos"
                             closeIcon="cancel"
-                            onSelect={(selectedOptions) => {setJogos(selectedOptions)}}
-                            onRemove={(selectedOptions) => {setJogos(selectedOptions)}}
+                            onSelect={(selectedOptions) => { setJogos(selectedOptions) }}
+                            onRemove={(selectedOptions) => { setJogos(selectedOptions) }}
                         />
                     </div>
                     <div className="inputContainer">
@@ -79,11 +112,12 @@ export default function Register() {
                         <Multiselect
                             isObject={false}
                             options={listaDias}
+                            selectedValues={dias}
                             displayValue="jogos"
                             placeholder="Selecione os dias que você joga"
                             closeIcon="cancel"
-                            onSelect={(selectedOptions) => {setDias(selectedOptions)}}
-                            onRemove={(selectedOptions) => {setDias(selectedOptions)}}
+                            onSelect={(selectedOptions) => { setDias(selectedOptions) }}
+                            onRemove={(selectedOptions) => { setDias(selectedOptions) }}
                         />
                     </div>
                     <div className="inputContainer">
@@ -94,9 +128,17 @@ export default function Register() {
                         <label htmlFor="descricao">Descreva seu modo de jogar</label>
                         <textarea name="descricao" id="descricao" required rows="3" value={descricao} onChange={e => setDescricao(e.target.value)} />
                     </div>
-                    <button type="submit">
-                        Enviar
-                    </button>
+                    <div className="buttons">
+                        <button type="submit" name="button" onClick={deletarJogador}>
+                            <FaTimes color="#fff" />
+                        </button>
+                        <button name="button" onClick={findPlayer}>
+                            <FaSearch color="#fff" />
+                        </button>
+                        <button type="submit" name="button">
+                            Salvar
+                        </button>
+                    </div>
                 </form>
             </div>
         </div >
